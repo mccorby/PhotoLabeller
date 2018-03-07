@@ -1,0 +1,71 @@
+apply plugin: 'kotlin'
+
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+buildscript {
+    ext.kotlin_version = '1.2.30'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+repositories {
+    mavenCentral()
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+ext {
+    dl4jVersion = "0.9.1"
+    slf4jVersion = "1.7.25"
+    kotlinCoroutinesVersion = "0.22.5"
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}"
+    // DL4J
+    implementation("org.deeplearning4j:deeplearning4j-core:${dl4jVersion}") {
+        exclude group: 'junit'
+        exclude group: 'com.github.stephenc.findbugs'
+    }
+    implementation("org.nd4j:nd4j-native:${dl4jVersion}") {
+        exclude group: 'junit'
+        exclude group: 'com.github.stephenc.findbugs'
+    }
+    implementation("org.nd4j:nd4j-native:${dl4jVersion}:android-arm") {
+        exclude group: 'junit'
+        exclude group: 'com.github.stephenc.findbugs'
+    }
+    implementation("org.deeplearning4j:deeplearning4j-zoo:${dl4jVersion}") {
+        exclude group: 'junit'
+        exclude group: 'com.github.stephenc.findbugs'
+    }
+    implementation("org.slf4j:slf4j-android:${slf4jVersion}") {
+        exclude group: 'junit'
+        exclude group: 'com.github.stephenc.findbugs'
+    }
+
+//    compile 'org.bytedeco.javacpp-presets:openblas:0.2.19-1.3:android-x86'
+//    compile 'org.bytedeco.javacpp-presets:openblas:0.2.19-1.3:android-arm'
+
+    testCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.30'
+    testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.2.30'
+//    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
+}
