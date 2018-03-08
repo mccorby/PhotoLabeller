@@ -11,4 +11,6 @@
 opencv
 gradlew
 gradlew.bat
-de
+
+*.so
+*.a

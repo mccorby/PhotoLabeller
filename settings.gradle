@@ -1,1 +1,1 @@
-include ':app', ':trainer', ':modelupdater', 'opencv'
+include ':app', ':trainer', ':modelupdater', ':base'

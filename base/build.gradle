@@ -26,11 +26,6 @@ compileTestKotlin {
     }
 }
 
-ext {
-    dl4jVersion = "0.7.2"
-    slf4jVersion = "1.7.25"
-}
-
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 

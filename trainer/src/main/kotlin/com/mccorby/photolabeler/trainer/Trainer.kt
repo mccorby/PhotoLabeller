@@ -1,9 +1,6 @@
 package com.mccorby.photolabeler.trainer
 
-import kotlinx.coroutines.experimental.async
 import org.deeplearning4j.nn.api.Model
-import org.deeplearning4j.zoo.PretrainedType
-import org.deeplearning4j.zoo.model.VGG16
 import org.nd4j.linalg.factory.Nd4j
 
 /**
@@ -19,12 +16,6 @@ class Trainer {
 
     fun loadModel(): Unit {
         val features = Nd4j.zeros(3, 224)
-        async {
-            System.out.print("Getting zoo model VGG16")
-            val zooModel = VGG16()
-            model = zooModel.initPretrained(PretrainedType.CIFAR10)
-            System.out.print("Model loaded $model")
-        }
     }
 
     fun predict(input: ByteArray): Int {
