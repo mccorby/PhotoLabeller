@@ -39,7 +39,7 @@ ext {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}"
     // DL4J
     implementation("org.deeplearning4j:deeplearning4j-core:${dl4jVersion}") {
         exclude group: 'junit'
@@ -61,7 +61,7 @@ dependencies {
 
     implementation project(path: ':base')
 
-    testCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.30'
-    testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.2.30'
+    testImplementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.30'
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit:1.2.30'
 //    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
 }

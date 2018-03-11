@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-        val fragment = supportFragmentManager.findFragmentById(R.id.fragment) as Main2ActivityFragment
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment) as MainActivityFragment
 
 
         fab.setOnClickListener { fragment.dispatchTakePictureIntent()}

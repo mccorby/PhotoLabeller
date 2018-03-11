@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mccorby.photolabeler.TrainingActivityFragment"
+    tools:showIn="@layout/activity_training">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Title"
+        tools:text="Training data"/>
+
+    <TextView
+        android:id="@+id/modelName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Training model cifar-10-20180323"/>
+
+    <TextView
+        android:id="@+id/numberOfImages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Using 1000 images"/>
+
+    <TextView
+        android:id="@+id/numberOfCategories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="With 10 categories"/>
+
+    <Space
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Title"
+        tools:text="Model Hyperparameters"/>
+
+    <TextView
+        android:id="@+id/epochs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Epochs: 10"/>
+
+    <TextView
+        android:id="@+id/modelDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Multilayer with 6 layers etc etc"/>
+
+    <Space
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Title"
+        tools:text="Logging"/>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/loggerArea"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Training started\nAccuracy at round 1: 0.00993"/>
+    </ScrollView>
+</LinearLayout>

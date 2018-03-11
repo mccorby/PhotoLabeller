@@ -1,6 +1,7 @@
 package com.mccorby.photolabeler
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
@@ -12,18 +13,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.mccorby.photolabeler.config.SharedConfig
-import com.mccorby.photolabeler.filemanager.FileManager
+import com.mccorby.photolabeler.filemanager.FileManagerImpl
+import com.mccorby.photolabeler.model.Stats
+import com.mccorby.photolabeler.presentation.LabellingPresenter
+import com.mccorby.photolabeler.presentation.LabellingView
+import com.mccorby.photolabeler.trainer.TrainerImpl
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 
 private const val REQUEST_TAKE_PHOTO = 2
 
-class Main2ActivityFragment : Fragment() {
-    private lateinit var fileManager: FileManager
-    private lateinit var config: SharedConfig
+class MainActivityFragment : Fragment(), LabellingView {
     private var currentPhotoPath = ""
+    private lateinit var presenter: LabellingPresenter
 
     companion object {
         val labels = arrayOf("Airplane", "Automobile", "Bird", "Cat", "Deer", "Dog", "Frog", "Horse", "Ship", "Truck")
@@ -38,11 +46,35 @@ class Main2ActivityFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_main, container, false)
 
-        view.labelImage.setOnClickListener {saveImageLabel()}
+        view.labelImage.setOnClickListener { saveImageLabel() }
+        view.train.setOnClickListener { trainModel() }
         buildLabels(view)
-        injectMembers()
 
         return view
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        injectMembers()
+        loadModel()
+    }
+
+    private fun loadModel() {
+        launch(UI) {
+           val stats = async {
+                presenter.loadModel()
+            }.await()
+            onModelLoaded(stats)
+        }
+    }
+
+    override fun onModelLoaded(stats: Stats) {
+        Toast.makeText(activity, stats.summary, Toast.LENGTH_LONG).show()
+        train.isEnabled = true
+    }
+
+    private fun trainModel() {
+        startActivity(Intent(activity, TrainingActivity::class.java))
     }
 
     override fun onResume() {
@@ -51,13 +83,15 @@ class Main2ActivityFragment : Fragment() {
     }
 
     private fun injectMembers() {
-        config = SharedConfig(50, 3)
-        fileManager = FileManager(context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+        val config = SharedConfig(50, 3)
+        val fileManager = FileManagerImpl(context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+        val trainer = TrainerImpl(config)
+        presenter = LabellingPresenter(this, fileManager, trainer)
     }
 
     private fun saveImageLabel() {
         val selectedLabel = labelsDropdown.selectedItem
-        fileManager.saveLabelImage(currentPhotoPath, selectedLabel.toString().toLowerCase())
+        presenter.saveLabelledImage(currentPhotoPath, selectedLabel.toString().toLowerCase())
     }
 
     private fun buildLabels(view: View) {
@@ -70,7 +104,7 @@ class Main2ActivityFragment : Fragment() {
         // Ensure that there's a camera activity to handle the intent
         if (takePictureIntent.resolveActivity(activity!!.packageManager) != null) {
             // Create the File where the photo should go
-            val photoFile = fileManager.createImageFile()
+            val photoFile = presenter.createImageFile()
             currentPhotoPath = photoFile.absolutePath
             Log.d(MainActivity::class.java.simpleName, "Current photo path $currentPhotoPath")
 
