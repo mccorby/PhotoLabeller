@@ -1,7 +1,7 @@
-package com.mccorby.photolabeler.trainer
+package com.mccorby.photolabeller.trainer
 
-import com.mccorby.photolabeler.config.SharedConfig
-import com.mccorby.photolabeler.model.Stats
+import com.mccorby.photolabeller.config.SharedConfig
+import com.mccorby.photolabeller.model.Stats
 import org.datavec.image.loader.NativeImageLoader
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.util.ModelSerializer

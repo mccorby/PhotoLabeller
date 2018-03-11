@@ -1,4 +1,4 @@
-package com.mccorby.photolabeler
+package com.mccorby.photolabeller
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar

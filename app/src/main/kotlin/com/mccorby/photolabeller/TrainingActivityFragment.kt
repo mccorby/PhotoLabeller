@@ -1,4 +1,4 @@
-package com.mccorby.photolabeler
+package com.mccorby.photolabeller
 
 import android.content.Context
 import android.os.Bundle
@@ -8,10 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.mccorby.photolabeler.config.SharedConfig
-import com.mccorby.photolabeler.filemanager.FileManagerImpl
-import com.mccorby.photolabeler.presentation.TrainingPresenter
-import com.mccorby.photolabeler.trainer.TrainerImpl
+import com.mccorby.photolabeller.config.SharedConfig
+import com.mccorby.photolabeller.filemanager.FileManagerImpl
+import com.mccorby.photolabeller.presentation.TrainingPresenter
+import com.mccorby.photolabeller.trainer.TrainerImpl
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch

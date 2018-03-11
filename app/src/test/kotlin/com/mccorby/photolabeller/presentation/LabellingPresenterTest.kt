@@ -1,8 +1,7 @@
-package com.mccorby.photolabeler.presentation
+package com.mccorby.photolabeller.presentation
 
-import com.mccorby.photolabeler.filemanager.FileManager
-import com.mccorby.photolabeler.trainer.Trainer
-import com.mccorby.photolabeler.trainer.TrainerImpl
+import com.mccorby.photolabeller.filemanager.FileManager
+import com.mccorby.photolabeller.trainer.Trainer
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.junit.Test

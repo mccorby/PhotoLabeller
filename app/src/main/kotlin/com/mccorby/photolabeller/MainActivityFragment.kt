@@ -1,4 +1,4 @@
-package com.mccorby.photolabeler
+package com.mccorby.photolabeller
 
 import android.app.Activity
 import android.content.Context
@@ -14,12 +14,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import com.mccorby.photolabeler.config.SharedConfig
-import com.mccorby.photolabeler.filemanager.FileManagerImpl
-import com.mccorby.photolabeler.model.Stats
-import com.mccorby.photolabeler.presentation.LabellingPresenter
-import com.mccorby.photolabeler.presentation.LabellingView
-import com.mccorby.photolabeler.trainer.TrainerImpl
+import com.mccorby.photolabeller.config.SharedConfig
+import com.mccorby.photolabeller.filemanager.FileManagerImpl
+import com.mccorby.photolabeller.model.Stats
+import com.mccorby.photolabeller.presentation.LabellingPresenter
+import com.mccorby.photolabeller.presentation.LabellingView
+import com.mccorby.photolabeller.trainer.TrainerImpl
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
@@ -27,15 +27,15 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
 
-private const val REQUEST_TAKE_PHOTO = 2
-
 class MainActivityFragment : Fragment(), LabellingView {
-    private var currentPhotoPath = ""
-    private lateinit var presenter: LabellingPresenter
 
     companion object {
+        const val REQUEST_TAKE_PHOTO = 2
         val labels = arrayOf("Airplane", "Automobile", "Bird", "Cat", "Deer", "Dog", "Frog", "Horse", "Ship", "Truck")
     }
+
+    private var currentPhotoPath = ""
+    private lateinit var presenter: LabellingPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

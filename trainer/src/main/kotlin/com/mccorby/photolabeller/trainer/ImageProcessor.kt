@@ -1,6 +1,6 @@
-package com.mccorby.photolabeler.trainer
+package com.mccorby.photolabeller.trainer
 
-import com.mccorby.photolabeler.config.SharedConfig
+import com.mccorby.photolabeller.config.SharedConfig
 import org.datavec.api.io.labels.ParentPathLabelGenerator
 import org.datavec.image.recordreader.ImageRecordReader
 import java.io.File

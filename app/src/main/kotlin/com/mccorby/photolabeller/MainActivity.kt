@@ -1,4 +1,4 @@
-package com.mccorby.photolabeler
+package com.mccorby.photolabeller
 
 import android.content.Intent
 import android.os.Bundle

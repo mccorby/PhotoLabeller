@@ -1,4 +1,4 @@
-package com.mccorby.photolabeler.filemanager
+package com.mccorby.photolabeller.filemanager
 
 import java.io.File
 import java.text.SimpleDateFormat
