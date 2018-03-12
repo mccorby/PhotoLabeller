@@ -1,4 +1,4 @@
-package com.mccorby.photolabeller.presentation
+package com.mccorby.photolabeller.labeller.presentation
 
 import com.mccorby.photolabeller.filemanager.FileManager
 import com.mccorby.photolabeller.trainer.Trainer

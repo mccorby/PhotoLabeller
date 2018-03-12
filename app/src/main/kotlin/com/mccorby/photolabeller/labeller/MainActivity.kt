@@ -1,8 +1,9 @@
-package com.mccorby.photolabeller
+package com.mccorby.photolabeller.labeller
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.mccorby.photolabeller.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 

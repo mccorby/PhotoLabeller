@@ -1,4 +1,4 @@
-package com.mccorby.photolabeller
+package com.mccorby.photolabeller.labeller
 
 import android.app.Activity
 import android.content.Context
@@ -14,18 +14,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.mccorby.photolabeller.R
 import com.mccorby.photolabeller.config.SharedConfig
 import com.mccorby.photolabeller.filemanager.FileManagerImpl
+import com.mccorby.photolabeller.labeller.presentation.LabellingPresenter
+import com.mccorby.photolabeller.labeller.presentation.LabellingView
 import com.mccorby.photolabeller.model.Stats
-import com.mccorby.photolabeller.presentation.LabellingPresenter
-import com.mccorby.photolabeller.presentation.LabellingView
 import com.mccorby.photolabeller.trainer.TrainerImpl
+import com.mccorby.photolabeller.trainer.TrainingActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_main.*
 import kotlinx.android.synthetic.main.fragment_main.view.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
+import java.io.File
 
 class MainActivityFragment : Fragment(), LabellingView {
 
@@ -85,7 +88,9 @@ class MainActivityFragment : Fragment(), LabellingView {
     private fun injectMembers() {
         val config = SharedConfig(50, 3)
         val fileManager = FileManagerImpl(context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
-        val trainer = TrainerImpl(config)
+        val trainer = TrainerImpl.instance
+        // TODO This to be fixed injection SharedConfig in Trainer
+        trainer.config = config
         presenter = LabellingPresenter(this, fileManager, trainer)
     }
 
@@ -110,7 +115,7 @@ class MainActivityFragment : Fragment(), LabellingView {
 
             // Continue only if the File was successfully created
             val photoURI = FileProvider.getUriForFile(context!!,
-                    "com.mccorby.photolabeler.fileprovider",
+                    "com.mccorby.photolabeller.fileprovider",
                     photoFile)
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
             startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO)
@@ -134,5 +139,8 @@ class MainActivityFragment : Fragment(), LabellingView {
                 .error(R.mipmap.ic_launcher_round)
                 .into(takenPhoto)
 
+        if (currentPhotoPath.isNotEmpty()) {
+            presenter.predict(File(currentPhotoPath))
+        }
     }
 }

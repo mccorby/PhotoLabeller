@@ -16,7 +16,7 @@ ext {
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.mccorby.photolabeler"
+        applicationId "com.mccorby.photolabeller"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
@@ -54,15 +54,15 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
         exclude "org/bytedeco/javacpp/windows*/*"
         exclude "org/bytedeco/javacpp/macos*/*"
-        exclude "org/bytedeco/javacpp/linux*/*"
+//        exclude "org/bytedeco/javacpp/linux*/*"
 //        pickFirst 'org/bytedeco/javacpp/windows-x86/msvcp120.dll'
 //        pickFirst 'org/bytedeco/javacpp/windows-x86_64/msvcp120.dll'
 //        pickFirst 'org/bytedeco/javacpp/windows-x86/msvcr120.dll'
 //        pickFirst 'org/bytedeco/javacpp/windows-x86_64/msvcr120.dll'
         pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/openblas/pom.properties'
         pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/openblas/pom.xml'
-        pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.properties'
-        pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.xml'
+//        pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.properties'
+//        pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.xml'
         pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.properties'
         pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.xml'
     }

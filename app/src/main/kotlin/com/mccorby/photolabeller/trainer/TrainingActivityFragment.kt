@@ -1,4 +1,4 @@
-package com.mccorby.photolabeller
+package com.mccorby.photolabeller.trainer
 
 import android.content.Context
 import android.os.Bundle
@@ -8,10 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.mccorby.photolabeller.R
 import com.mccorby.photolabeller.config.SharedConfig
 import com.mccorby.photolabeller.filemanager.FileManagerImpl
-import com.mccorby.photolabeller.presentation.TrainingPresenter
-import com.mccorby.photolabeller.trainer.TrainerImpl
+import com.mccorby.photolabeller.trainer.presentation.TrainingPresenter
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
@@ -35,7 +35,8 @@ class TrainingActivityFragment : Fragment() {
 
     private fun injectMembers() {
         val config = SharedConfig(50, 3)
-        val trainer = TrainerImpl(config)
+        val trainer = TrainerImpl.instance
+        trainer.config = config
         val fileManager = FileManagerImpl(context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
         presenter = TrainingPresenter(trainer, fileManager)
     }

@@ -8,9 +8,6 @@ import org.deeplearning4j.util.ModelSerializer
 import org.nd4j.linalg.api.ndarray.INDArray
 import java.io.File
 
-
-
-
 /**
  * Note that for convolutional models, input shape information follows the NCHW convention.
  * So if a model’s input shape default is new int[]{3, 224, 224},
@@ -23,11 +20,18 @@ import java.io.File
 interface Trainer {
     fun loadModel(location: File): Stats
     fun train(): Stats
-    fun predict(input: File): Int
+    fun predict(input: File): Stats
+    fun isModelLoaded(): Boolean
 }
 
-class TrainerImpl(private val config: SharedConfig): Trainer {
 
+class TrainerImpl: Trainer {
+
+    companion object {
+        var instance: TrainerImpl = TrainerImpl()
+    }
+
+    lateinit var config: SharedConfig
     private var model: MultiLayerNetwork? = null
 
     override fun loadModel(location: File): Stats {
@@ -50,9 +54,9 @@ class TrainerImpl(private val config: SharedConfig): Trainer {
         return Stats("Model loaded")
     }
 
-    override fun predict(input: File): Int {
+    override fun predict(input: File): Stats {
         if (model == null) {
-            return -1
+            return Stats("No active model")
         }
 
         val loader = NativeImageLoader(config.imageSize, config.imageSize, config.channels)
@@ -60,7 +64,8 @@ class TrainerImpl(private val config: SharedConfig): Trainer {
         var image: INDArray? = null
         try {
             image = loader.asMatrix(input)
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
+            e.printStackTrace()
         }
 
         /* DataNormalization scaler = new ImagePreProcessingScaler(0,1);
@@ -84,6 +89,10 @@ class TrainerImpl(private val config: SharedConfig): Trainer {
 //        jta.append("the  identification result :$modelResult")
 //        jta.append("\n")
 
-        return 0
+        return Stats(output.toString())
+    }
+
+    override fun isModelLoaded(): Boolean {
+        return model != null
     }
 }

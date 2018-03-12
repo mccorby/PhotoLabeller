@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.mccorby.photolabeller.MainActivity"
+            android:name="com.mccorby.photolabeller.labeller.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -38,7 +38,7 @@
         </provider>
 
         <activity
-            android:name="com.mccorby.photolabeller.TrainingActivity"
+            android:name="com.mccorby.photolabeller.trainer.TrainingActivity"
             android:label="@string/title_activity_training"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
