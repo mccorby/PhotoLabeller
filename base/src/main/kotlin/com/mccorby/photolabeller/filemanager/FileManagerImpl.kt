@@ -8,6 +8,8 @@ interface FileManager {
     fun createImageFile(): File
     fun saveLabelImage(currentPhotoPath: String, selectedLabel: String)
     fun loadModelFile(): File
+    fun loadFile(name: String): File
+    fun rootDir(): String
 }
 
 class FileManagerImpl(private val storageDir: File): FileManager {
@@ -34,6 +36,13 @@ class FileManagerImpl(private val storageDir: File): FileManager {
     }
 
     override fun loadModelFile(): File {
-        return File(storageDir.absolutePath, "cifar_federated.zip")
+        return File(storageDir.absolutePath, "imdb.zip")
     }
+
+    override fun loadFile(name: String): File {
+        return File(storageDir.absolutePath, name)
+    }
+
+    override fun rootDir(): String = storageDir.absolutePath
+
 }

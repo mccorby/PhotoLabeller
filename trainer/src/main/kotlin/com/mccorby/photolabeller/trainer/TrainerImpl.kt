@@ -2,6 +2,7 @@ package com.mccorby.photolabeller.trainer
 
 import com.mccorby.photolabeller.config.SharedConfig
 import com.mccorby.photolabeller.model.Stats
+import com.mccorby.photolabeller.model.Trainer
 import org.datavec.image.loader.NativeImageLoader
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.util.ModelSerializer
@@ -16,16 +17,7 @@ import java.io.File
  * https://deeplearning4j.org/transfer-learning
  */
 
-// TODO Move interface out to domain models
-interface Trainer {
-    fun loadModel(location: File): Stats
-    fun train(): Stats
-    fun predict(input: File): Stats
-    fun isModelLoaded(): Boolean
-}
-
-
-class TrainerImpl: Trainer {
+class TrainerImpl: Trainer<File> {
 
     companion object {
         var instance: TrainerImpl = TrainerImpl()

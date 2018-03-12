@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.mccorby.movierating.trainer.MovieTrainerImpl
 import com.mccorby.photolabeller.R
 import com.mccorby.photolabeller.config.SharedConfig
 import com.mccorby.photolabeller.filemanager.FileManagerImpl
@@ -35,10 +36,16 @@ class TrainingActivityFragment : Fragment() {
 
     private fun injectMembers() {
         val config = SharedConfig(50, 3)
-        val trainer = TrainerImpl.instance
-        trainer.config = config
+        val trainer = MovieTrainerImpl.instance
+//        trainer.config = config
         val fileManager = FileManagerImpl(context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
+        with (receiver = trainer as MovieTrainerImpl) {
+            trainer.wordVectorsPath = fileManager.loadFile("NewsWordVector.txt")
+            trainer.dataDir = fileManager.rootDir()
+        }
+
         presenter = TrainingPresenter(trainer, fileManager)
+        trainModel()
     }
 
     private fun trainModel() {

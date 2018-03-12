@@ -59,6 +59,8 @@ dependencies {
         exclude group: 'com.github.stephenc.findbugs'
     }
 
+    implementation("org.deeplearning4j:deeplearning4j-nlp:${dl4jVersion}")
+
     implementation project(path: ':base')
 
     testImplementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.30'

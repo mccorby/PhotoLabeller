@@ -1,22 +1,24 @@
 package com.mccorby.photolabeller.labeller.presentation
 
+import com.mccorby.movierating.trainer.MovieTrainerImpl
 import com.mccorby.photolabeller.filemanager.FileManager
 import com.mccorby.photolabeller.model.Stats
-import com.mccorby.photolabeller.trainer.Trainer
+import com.mccorby.photolabeller.model.Trainer
 import java.io.File
 
-class LabellingPresenter(private val view: LabellingView, private val fileManager: FileManager, private val trainer: Trainer) {
+class LabellingPresenter<in T>(private val view: LabellingView, private val fileManager: FileManager,
+                         private val trainer: Trainer<T>) {
 
     fun saveLabelledImage(photoPath: String, label: String) {
         fileManager.saveLabelImage(photoPath, label)
     }
 
     fun loadModel(): Stats {
-        if (!trainer.isModelLoaded()) {
+        return if (!trainer.isModelLoaded()) {
             val modelFile = fileManager.loadModelFile()
-            return trainer.loadModel(modelFile)
+            trainer.loadModel(modelFile)
         } else {
-            return Stats("Model was already loaded")
+            Stats("Model was already loaded")
         }
     }
 
@@ -24,7 +26,9 @@ class LabellingPresenter(private val view: LabellingView, private val fileManage
         return fileManager.createImageFile()
     }
 
-    fun predict(image: File): Stats {
+    fun predict(image: T): Stats {
+        (trainer as MovieTrainerImpl).wordVectorsPath = fileManager.loadFile("NewsWordVector.txt")
+        (trainer as MovieTrainerImpl).dataDir = fileManager.rootDir()
         return trainer.predict(image)
     }
 }

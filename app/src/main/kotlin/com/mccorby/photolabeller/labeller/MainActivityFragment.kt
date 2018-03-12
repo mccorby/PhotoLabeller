@@ -14,13 +14,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.mccorby.movierating.trainer.MovieTrainerImpl
 import com.mccorby.photolabeller.R
 import com.mccorby.photolabeller.config.SharedConfig
 import com.mccorby.photolabeller.filemanager.FileManagerImpl
 import com.mccorby.photolabeller.labeller.presentation.LabellingPresenter
 import com.mccorby.photolabeller.labeller.presentation.LabellingView
 import com.mccorby.photolabeller.model.Stats
-import com.mccorby.photolabeller.trainer.TrainerImpl
 import com.mccorby.photolabeller.trainer.TrainingActivity
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -28,7 +28,6 @@ import kotlinx.android.synthetic.main.fragment_main.view.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
-import java.io.File
 
 class MainActivityFragment : Fragment(), LabellingView {
 
@@ -38,7 +37,7 @@ class MainActivityFragment : Fragment(), LabellingView {
     }
 
     private var currentPhotoPath = ""
-    private lateinit var presenter: LabellingPresenter
+    private lateinit var presenter: LabellingPresenter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +73,9 @@ class MainActivityFragment : Fragment(), LabellingView {
     override fun onModelLoaded(stats: Stats) {
         Toast.makeText(activity, stats.summary, Toast.LENGTH_LONG).show()
         train.isEnabled = true
+
+        val result = presenter.predict("I went and saw this movie last night after being coaxed to by a few friends of mine. I'll admit that I was reluctant to see it because from what I knew of Ashton Kutcher he was only able to do comedy. I was wrong. Kutcher played the character of Jake Fischer very well, and Kevin Costner played Ben Randall with such professionalism. The sign of a good movie is that it can toy with our emotions. This one did exactly that. The entire theater (which was sold out) was overcome by laughter during the first half of the movie, and were moved to tears during the second half. While exiting the theater I not only saw many women in tears, but many full grown men as well, trying desperately not to let anyone see them crying. This movie was great, and I suggest that you go see it before you judge.")
+        Toast.makeText(activity, result.summary, Toast.LENGTH_LONG).show()
     }
 
     private fun trainModel() {
@@ -88,9 +90,9 @@ class MainActivityFragment : Fragment(), LabellingView {
     private fun injectMembers() {
         val config = SharedConfig(50, 3)
         val fileManager = FileManagerImpl(context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
-        val trainer = TrainerImpl.instance
+        val trainer = MovieTrainerImpl.instance
         // TODO This to be fixed injection SharedConfig in Trainer
-        trainer.config = config
+//        trainer.config = config
         presenter = LabellingPresenter(this, fileManager, trainer)
     }
 
@@ -139,8 +141,8 @@ class MainActivityFragment : Fragment(), LabellingView {
                 .error(R.mipmap.ic_launcher_round)
                 .into(takenPhoto)
 
-        if (currentPhotoPath.isNotEmpty()) {
-            presenter.predict(File(currentPhotoPath))
-        }
+//        if (currentPhotoPath.isNotEmpty()) {
+//            presenter.predict(File(currentPhotoPath))
+//        }
     }
 }
