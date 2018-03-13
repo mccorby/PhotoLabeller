@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">Photo Labeler</string>
-    <string name="title_activity_main">Photo Labeler</string>
+    <string name="app_name">Movie Rating</string>
+    <string name="title_activity_main">Movie Rating</string>
     <string name="save_image_label">Label Image</string>
     <string name="action_settings">Settings</string>
-    <string name="train">Start Training</string>
     <string name="title_activity_training">Training Model</string>
+    <string name="browse">Browse</string>
+    <string name="train">Train</string>
 </resources>

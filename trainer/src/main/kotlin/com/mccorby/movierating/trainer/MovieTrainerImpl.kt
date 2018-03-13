@@ -1,7 +1,7 @@
 package com.mccorby.movierating.trainer
 
-import com.mccorby.photolabeller.model.Stats
-import com.mccorby.photolabeller.model.Trainer
+import com.mccorby.movierating.model.Stats
+import com.mccorby.movierating.model.Trainer
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.util.ModelSerializer

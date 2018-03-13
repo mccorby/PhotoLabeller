@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.mccorby.photolabeller">
+          package="com.mccorby.movierating">
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.mccorby.photolabeller.labeller.MainActivity"
+            android:name="com.mccorby.movierating.labeller.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -29,19 +29,13 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.mccorby.photolabeller.fileprovider"
+            android:authorities="com.mccorby.movierating.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths"/>
         </provider>
-
-        <activity
-            android:name="com.mccorby.photolabeller.trainer.TrainingActivity"
-            android:label="@string/title_activity_training"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
     </application>
 
 </manifest>

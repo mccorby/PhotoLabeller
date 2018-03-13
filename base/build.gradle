@@ -1,8 +1,14 @@
 apply plugin: 'kotlin'
 
-
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
+
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
+
 buildscript {
     ext.kotlin_version = '1.2.30'
     repositories {
@@ -26,8 +32,14 @@ compileTestKotlin {
     }
 }
 
+ext {
+    kotlinCoroutinesVersion = "0.22.5"
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${kotlinCoroutinesVersion}"
 
     testCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.30'
     testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.2.30'

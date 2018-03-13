@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_browse"
+        android:icon="@android:drawable/btn_minus"
+        android:title="@string/browse"/>
+    <item
+        android:id="@+id/action_train"
+        android:icon="@android:drawable/btn_plus"
+        android:title="@string/train"/>
+</menu>
