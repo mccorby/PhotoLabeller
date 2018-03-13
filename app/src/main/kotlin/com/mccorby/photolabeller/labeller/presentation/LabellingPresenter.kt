@@ -26,10 +26,10 @@ class LabellingPresenter<in T>(private val view: LabellingView, private val file
         return fileManager.createImageFile()
     }
 
-    fun predict(image: T): Stats {
+    fun predict(data: T): Stats {
         (trainer as MovieTrainerImpl).wordVectorsPath = fileManager.loadFile("NewsWordVector.txt")
         (trainer as MovieTrainerImpl).dataDir = fileManager.rootDir()
-        return trainer.predict(image)
+        return trainer.predict(data)
     }
 }
 
