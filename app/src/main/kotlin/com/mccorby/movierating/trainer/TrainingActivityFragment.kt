@@ -9,9 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.mccorby.movierating.R
-import com.mccorby.movierating.config.SharedConfig
 import com.mccorby.movierating.filemanager.FileManagerImpl
+import com.mccorby.movierating.model.Logger
 import com.mccorby.movierating.trainer.presentation.TrainingPresenter
+import kotlinx.android.synthetic.main.fragment_training.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
@@ -34,16 +35,20 @@ class TrainingActivityFragment : Fragment() {
     }
 
     private fun injectMembers() {
-        val config = SharedConfig(50, 3)
         val trainer = MovieTrainerImpl.instance
-//        trainer.config = config
         val fileManager = FileManagerImpl(context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
-        with (receiver = trainer as MovieTrainerImpl) {
-            trainer.wordVectorsPath = fileManager.loadFile("NewsWordVector.txt")
+        with (trainer as MovieTrainerImpl) {
+            trainer.wordVectorsPath = fileManager.loadFile("NewsWordVector2.txt")
             trainer.dataDir = fileManager.rootDir()
         }
+        val trainingListener = TrainerLogger(object: Logger {
+            override fun log(message: String) {
+                println(message)
+//                Log.d(TrainingActivityFragment::class.java.simpleName, message)
+            }
 
-        presenter = TrainingPresenter(trainer, fileManager)
+        })
+        presenter = TrainingPresenter(trainer, trainingListener)
         trainModel()
     }
 
@@ -54,7 +59,7 @@ class TrainingActivityFragment : Fragment() {
             val result = async {
                 presenter.train()
             }.await()
-
+            loggerArea.append(result.summary)
             Toast.makeText(activity, result.summary, Toast.LENGTH_LONG).show()
         }
     }

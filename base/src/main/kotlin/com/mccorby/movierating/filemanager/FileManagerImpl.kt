@@ -3,7 +3,7 @@ package com.mccorby.movierating.filemanager
 import java.io.File
 
 interface FileManager {
-    fun loadModelFile(): File
+    fun loadModelFile(): File?
     fun loadFile(name: String): File
     fun rootDir(): String
 }

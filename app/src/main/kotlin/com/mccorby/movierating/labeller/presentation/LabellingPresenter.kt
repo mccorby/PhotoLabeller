@@ -12,7 +12,11 @@ class LabellingPresenter<in T>(private val view: LabellingView,
     fun loadModel(): Stats {
         return if (!trainer.isModelLoaded()) {
             val modelFile = fileManager.loadModelFile()
-            trainer.loadModel(modelFile)
+            if (modelFile != null) {
+                trainer.loadModel(modelFile)
+            } else {
+                Stats("Model file not found")
+            }
         } else {
             Stats("Model was already loaded")
         }

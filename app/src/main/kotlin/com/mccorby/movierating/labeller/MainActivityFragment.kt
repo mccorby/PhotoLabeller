@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.mccorby.movierating.R
-import com.mccorby.movierating.config.SharedConfig
 import com.mccorby.movierating.filemanager.FileManagerImpl
 import com.mccorby.movierating.labeller.presentation.LabellingPresenter
 import com.mccorby.movierating.labeller.presentation.LabellingView
@@ -42,7 +41,7 @@ class MainActivityFragment : Fragment(), LabellingView {
         super.onAttach(context)
         injectMembers()
         // TODO Load model on start
-//        loadModel()
+        loadModel()
     }
 
     override fun onResume() {
@@ -66,15 +65,10 @@ class MainActivityFragment : Fragment(), LabellingView {
         Toast.makeText(activity, result.summary, Toast.LENGTH_LONG).show()
     }
 
-    private fun trainModel() {
-    }
 
     private fun injectMembers() {
-        val config = SharedConfig(50, 3)
         val fileManager = FileManagerImpl(context!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES))
         val trainer = MovieTrainerImpl.instance
-        // TODO This to be fixed injection SharedConfig in Trainer
-//        trainer.config = config
         presenter = LabellingPresenter(this, fileManager, trainer)
     }
 

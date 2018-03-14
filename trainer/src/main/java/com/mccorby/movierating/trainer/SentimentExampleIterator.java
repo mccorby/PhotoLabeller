@@ -34,11 +34,11 @@ public class SentimentExampleIterator implements DataSetIterator {
     private final TokenizerFactory tokenizerFactory;
 
     /**
-     * @param dataDirectory the directory of the IMDB review data set
-     * @param wordVectors WordVectors object
-     * @param batchSize Size of each minibatch for training
+     * @param dataDirectory  the directory of the IMDB review data set
+     * @param wordVectors    WordVectors object
+     * @param batchSize      Size of each minibatch for training
      * @param truncateLength If reviews exceed
-     * @param train If true: return the training data. If false: return the testing data.
+     * @param train          If true: return the training data. If false: return the testing data.
      */
     public SentimentExampleIterator(String dataDirectory, WordVectors wordVectors, int batchSize, int truncateLength, boolean train) throws IOException {
         this.batchSize = batchSize;
@@ -61,10 +61,11 @@ public class SentimentExampleIterator implements DataSetIterator {
 
     @Override
     public DataSet next(int num) {
-        if (cursor >= positiveFiles.length + negativeFiles.length) throw new NoSuchElementException();
-        try{
+        if (cursor >= positiveFiles.length + negativeFiles.length)
+            throw new NoSuchElementException();
+        try {
             return nextDataSet(num);
-        }catch(IOException e){
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -76,8 +77,8 @@ public class SentimentExampleIterator implements DataSetIterator {
         int min = Math.min(total, num);
         List<String> reviews = new ArrayList<>(min);
         boolean[] positive = new boolean[min];
-        for( int i=0; i<num && cursor<totalExamples(); i++ ){
-            if(cursor % 2 == 0){
+        for (int i = 0; i < num && cursor < totalExamples(); i++) {
+            if (cursor % 2 == 0) {
                 //Load positive review
                 int posReviewNumber = cursor / 2;
                 int index = Math.min(posReviewNumber, positiveFiles.length - 1);
@@ -98,18 +99,18 @@ public class SentimentExampleIterator implements DataSetIterator {
         //Second: tokenize reviews and filter out unknown words
         List<List<String>> allTokens = new ArrayList<>(reviews.size());
         int maxLength = 0;
-        for(String s : reviews){
+        for (String s : reviews) {
             List<String> tokens = tokenizerFactory.create(s).getTokens();
             List<String> tokensFiltered = new ArrayList<>();
-            for(String t : tokens ){
-                if(wordVectors.hasWord(t)) tokensFiltered.add(t);
+            for (String t : tokens) {
+                if (wordVectors.hasWord(t)) tokensFiltered.add(t);
             }
             allTokens.add(tokensFiltered);
-            maxLength = Math.max(maxLength,tokensFiltered.size());
+            maxLength = Math.max(maxLength, tokensFiltered.size());
         }
 
         //If longest review exceeds 'truncateLength': only take the first 'truncateLength' words
-        if(maxLength > truncateLength) maxLength = truncateLength;
+        if (maxLength > truncateLength) maxLength = truncateLength;
 
         //Create data for training
         //Here: we have reviews.size() examples of varying lengths
@@ -120,7 +121,7 @@ public class SentimentExampleIterator implements DataSetIterator {
         INDArray featuresMask = Nd4j.zeros(reviews.size(), maxLength);
         INDArray labelsMask = Nd4j.zeros(reviews.size(), maxLength);
 
-        for( int i=0; i<reviews.size(); i++ ){
+        for (int i = 0; i < reviews.size(); i++) {
             List<String> tokens = allTokens.get(i);
 
             // Get the truncated sequence length of document (i)
@@ -134,21 +135,21 @@ public class SentimentExampleIterator implements DataSetIterator {
             // 2) All vector elements which is equal to NDArrayIndex.interval(0, vectorSize)
             // 3) All elements between 0 and the length of the current sequence
             features.put(
-                    new INDArrayIndex[] {
+                    new INDArrayIndex[]{
                             NDArrayIndex.point(i), NDArrayIndex.all(), NDArrayIndex.interval(0, seqLength)
                     },
                     vectors);
 
             // Assign "1" to each position where a feature is present, that is, in the interval of [0, seqLength)
-            featuresMask.get(new INDArrayIndex[] {NDArrayIndex.point(i), NDArrayIndex.interval(0, seqLength)}).assign(1);
+            featuresMask.get(new INDArrayIndex[]{NDArrayIndex.point(i), NDArrayIndex.interval(0, seqLength)}).assign(1);
 
             int idx = (positive[i] ? 0 : 1);
-            int lastIdx = Math.min(tokens.size(),maxLength);
-            labels.putScalar(new int[]{i,idx,lastIdx-1},1.0);   //Set label: [0,1] for negative, [1,0] for positive
-            labelsMask.putScalar(new int[]{i,lastIdx-1},1.0);   //Specify that an output exists at the final time step for this example
+            int lastIdx = Math.min(tokens.size(), maxLength);
+            labels.putScalar(new int[]{i, idx, lastIdx - 1}, 1.0);   //Set label: [0,1] for negative, [1,0] for positive
+            labelsMask.putScalar(new int[]{i, lastIdx - 1}, 1.0);   //Specify that an output exists at the final time step for this example
         }
 
-        return new DataSet(features,labels,featuresMask,labelsMask);
+        return new DataSet(features, labels, featuresMask, labelsMask);
     }
 
     @Override
@@ -202,7 +203,7 @@ public class SentimentExampleIterator implements DataSetIterator {
 
     @Override
     public List<String> getLabels() {
-        return Arrays.asList("positive","negative");
+        return Arrays.asList("positive", "negative");
     }
 
     @Override
@@ -219,22 +220,27 @@ public class SentimentExampleIterator implements DataSetIterator {
     public void remove() {
 
     }
+
     @Override
     public DataSetPreProcessor getPreProcessor() {
         throw new UnsupportedOperationException("Not implemented");
     }
 
-    /** Convenience method for loading review to String */
-    public String loadReviewToString(int index) throws IOException{
+    /**
+     * Convenience method for loading review to String
+     */
+    public String loadReviewToString(int index) throws IOException {
         File f;
-        if(index%2 == 0) f = positiveFiles[index/2];
-        else f = negativeFiles[index/2];
+        if (index % 2 == 0) f = positiveFiles[index / 2];
+        else f = negativeFiles[index / 2];
         return FileUtils.readFileToString(f);
     }
 
-    /** Convenience method to get label for review */
-    public boolean isPositiveReview(int index){
-        return index%2 == 0;
+    /**
+     * Convenience method to get label for review
+     */
+    public boolean isPositiveReview(int index) {
+        return index % 2 == 0;
     }
 
     /**
@@ -242,7 +248,7 @@ public class SentimentExampleIterator implements DataSetIterator {
      *
      * @param file      File to load the review from
      * @param maxLength Maximum length (if review is longer than this: truncate to maxLength). Use Integer.MAX_VALUE to not nruncate
-     * @return          Features array
+     * @return Features array
      * @throws IOException If file cannot be read
      */
     public INDArray loadFeaturesFromFile(File file, int maxLength) throws IOException {
@@ -254,20 +260,20 @@ public class SentimentExampleIterator implements DataSetIterator {
      * Used post training to convert a String to a features INDArray that can be passed to the network output method
      *
      * @param reviewContents Contents of the review to vectorize
-     * @param maxLength Maximum length (if review is longer than this: truncate to maxLength). Use Integer.MAX_VALUE to not nruncate
+     * @param maxLength      Maximum length (if review is longer than this: truncate to maxLength). Use Integer.MAX_VALUE to not nruncate
      * @return Features array for the given input String
      */
-    public INDArray loadFeaturesFromString(String reviewContents, int maxLength){
+    public INDArray loadFeaturesFromString(String reviewContents, int maxLength) {
         List<String> tokens = tokenizerFactory.create(reviewContents).getTokens();
         List<String> tokensFiltered = new ArrayList<>();
-        for(String t : tokens ){
-            if(wordVectors.hasWord(t)) tokensFiltered.add(t);
+        for (String t : tokens) {
+            if (wordVectors.hasWord(t)) tokensFiltered.add(t);
         }
-        int outputLength = Math.max(maxLength,tokensFiltered.size());
+        int outputLength = Math.max(maxLength, tokensFiltered.size());
 
         INDArray features = Nd4j.create(1, vectorSize, outputLength);
 
-        for( int j=0; j<tokens.size() && j<maxLength; j++ ){
+        for (int j = 0; j < tokens.size() && j < maxLength; j++) {
             String token = tokens.get(j);
             INDArray vector = wordVectors.getWordVectorMatrix(token);
             features.put(new INDArrayIndex[]{NDArrayIndex.point(0), NDArrayIndex.all(), NDArrayIndex.point(j)}, vector);

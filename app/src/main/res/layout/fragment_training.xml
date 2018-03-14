@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.mccorby.photolabeller.com.mccorby.movierating.trainer.TrainingActivityFragment"
+    tools:context="com.mccorby.movierating.trainer.TrainingActivityFragment"
 >
 
     <TextView
