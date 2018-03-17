@@ -1,0 +1,37 @@
+apply plugin: 'kotlin'
+
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    def applicationDependencies = rootProject.ext.productionCode
+    def unitTestDependencies = rootProject.ext.unitTesting
+
+    implementation applicationDependencies.kotlin
+    implementation applicationDependencies.kotlinCoroutines
+    implementation applicationDependencies.retrofit
+
+    implementation project(path: ':base')
+
+    testImplementation unitTestDependencies.kotlin
+    testImplementation unitTestDependencies.kotlinTest
+    testImplementation unitTestDependencies.junit
+    testImplementation unitTestDependencies.mockito
+}

@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.mccorby.photolabeller.trainer.TrainingActivityFragment"
-    tools:showIn="@layout/activity_training">
+    tools:context="com.mccorby.photolabeller.trainer.TrainingFragment"
+    android:padding="@dimen/default_margin">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Title"
-        tools:text="Training data"/>
+        android:text="@string/training_data"/>
 
     <TextView
         android:id="@+id/modelName"
@@ -24,6 +24,7 @@
         android:id="@+id/numberOfImages"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/using_images"
         tools:text="Using 1000 images"/>
 
     <TextView
@@ -41,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Title"
-        tools:text="Model Hyperparameters"/>
+        android:text="@string/model_hyperparameters"/>
 
     <TextView
         android:id="@+id/epochs"
@@ -64,7 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Title"
-        tools:text="Logging"/>
+        android:text="@string/logging"/>
 
     <ScrollView
         android:layout_width="wrap_content"

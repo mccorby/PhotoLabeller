@@ -8,21 +8,25 @@ kotlin {
     }
 }
 
-ext {
-    kotlinCoroutinesVersion = "0.22.5"
-    picassoVersion = "2.5.2"
-}
+Properties properties = new Properties()
+properties.load(project.file('gradle.properties').newDataInputStream())
+def paramServerUrl = properties.getProperty('parameter_server_url')
 
 android {
-    compileSdkVersion 27
+    def config = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion config["compile_sdk"]
+
     defaultConfig {
-        applicationId "com.mccorby.photolabeller"
-        minSdkVersion 21
-        targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        applicationId config["application_id"]
+        minSdkVersion config["min_sdk"]
+        targetSdkVersion config["target_sdk"]
+        versionCode config["version_code"]
+        versionName config["version_name"]
+        testInstrumentationRunner config["test_runner"]
         multiDexEnabled true
+
+        buildConfigField "String", "BASE_URL", "\"${paramServerUrl}\""
     }
     buildTypes {
         release {
@@ -54,36 +58,43 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
         exclude "org/bytedeco/javacpp/windows*/*"
         exclude "org/bytedeco/javacpp/macos*/*"
-//        exclude "org/bytedeco/javacpp/linux*/*"
-//        pickFirst 'org/bytedeco/javacpp/windows-x86/msvcp120.dll'
-//        pickFirst 'org/bytedeco/javacpp/windows-x86_64/msvcp120.dll'
-//        pickFirst 'org/bytedeco/javacpp/windows-x86/msvcr120.dll'
-//        pickFirst 'org/bytedeco/javacpp/windows-x86_64/msvcr120.dll'
         pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/openblas/pom.properties'
         pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/openblas/pom.xml'
-//        pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.properties'
-//        pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/opencv/pom.xml'
         pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.properties'
         pickFirst 'META-INF/maven/org.bytedeco.javacpp-presets/ffmpeg/pom.xml'
     }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${kotlinCoroutinesVersion}"
+    def applicationDependencies = rootProject.ext.productionCode
+    def unitTestDependencies = rootProject.ext.unitTesting
+    def acceptanceTestDependencies = rootProject.ext.acceptanceTesting
 
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    implementation 'com.android.support:design:27.1.0'
-    implementation 'com.google.code.gson:gson:2.8.2'
-    implementation "com.squareup.picasso:picasso:${picassoVersion}"
+    implementation applicationDependencies.kotlin
+    implementation applicationDependencies.kotlinCoroutines
+    implementation applicationDependencies.kotlinCoroutinesAndroid
+
+    implementation applicationDependencies.appCompat
+    implementation applicationDependencies.constraintLayout
+    implementation applicationDependencies.design
+
+    implementation applicationDependencies.retrofit
+    implementation applicationDependencies.retrofit_logging
+    implementation applicationDependencies.gson
+    implementation applicationDependencies.picasso
+    implementation applicationDependencies.kapsule
+    implementation applicationDependencies.retrofitCoroutines
 
     implementation project(path: ':base')
     implementation project(path: ':trainer')
+    implementation project(path: ':modelupdater')
+    implementation project(path: ':datasource')
 
-    testImplementation 'junit:junit:4.12'
-    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    testImplementation unitTestDependencies.kotlin
+    testImplementation unitTestDependencies.kotlinTest
+    testImplementation unitTestDependencies.junit
+    testImplementation unitTestDependencies.mockito
+
+    androidTestImplementation acceptanceTestDependencies.testRunner
+    androidTestImplementation acceptanceTestDependencies.espressoCore
 }

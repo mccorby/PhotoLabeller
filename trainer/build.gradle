@@ -8,18 +8,7 @@ kotlin {
 
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
-buildscript {
-    ext.kotlin_version = '1.2.30'
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-repositories {
-    mavenCentral()
-}
+
 compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
@@ -31,37 +20,38 @@ compileTestKotlin {
     }
 }
 
-ext {
-    dl4jVersion = "0.7.2"
-    slf4jVersion = "1.7.25"
-    kotlinCoroutinesVersion = "0.22.5"
-}
-
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutinesVersion}"
+    def applicationDependencies = rootProject.ext.productionCode
+    def unitTestDependencies = rootProject.ext.unitTesting
+
+    implementation applicationDependencies.kotlin
+    implementation applicationDependencies.kotlinCoroutines
+
     // DL4J
-    implementation("org.deeplearning4j:deeplearning4j-core:${dl4jVersion}") {
-        exclude group: 'junit'
-        exclude group: 'com.github.stephenc.findbugs'
-    }
-    implementation("org.nd4j:nd4j-native:${dl4jVersion}") {
-        exclude group: 'junit'
-        exclude group: 'com.github.stephenc.findbugs'
-    }
-    implementation("org.nd4j:nd4j-native:${dl4jVersion}:android-arm") {
+    implementation (applicationDependencies.dl4j_core) {
         exclude group: 'junit'
         exclude group: 'com.github.stephenc.findbugs'
     }
 
-    implementation("org.slf4j:slf4j-android:${slf4jVersion}") {
+    implementation(applicationDependencies.dl4j_native) {
+        exclude group: 'junit'
+        exclude group: 'com.github.stephenc.findbugs'
+    }
+
+    implementation(applicationDependencies.dl4j_native_android) {
+        exclude group: 'junit'
+        exclude group: 'com.github.stephenc.findbugs'
+    }
+
+    implementation(applicationDependencies.sl4j) {
         exclude group: 'junit'
         exclude group: 'com.github.stephenc.findbugs'
     }
 
     implementation project(path: ':base')
 
-    testImplementation 'org.jetbrains.kotlin:kotlin-stdlib:1.2.30'
-    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit:1.2.30'
-//    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
+    testImplementation unitTestDependencies.kotlin
+    testImplementation unitTestDependencies.kotlinTest
+    testImplementation unitTestDependencies.junit
+    testImplementation unitTestDependencies.mockito
 }

@@ -1,52 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.mccorby.photolabeller.labeller.MainActivity"
-    tools:showIn="@layout/activity_main">
+    android:layout_height="wrap_content"
+    tools:context="com.mccorby.photolabeller.labeller.MainActivity">
 
-    <LinearLayout
+    <View
+        android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/default_margin"
-        android:orientation="vertical">
+        android:background="@color/background_light"
+        />
 
-        <ImageView
-            android:id="@+id/takenPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:adjustViewBounds="true"
-            android:maxHeight="@dimen/image_height"
-            android:scaleType="fitStart"
-            android:src="@mipmap/ic_launcher_round"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <Spinner
-            android:id="@+id/labelsDropdown"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/default_margin"
-            android:background="@android:drawable/btn_dropdown"
-            android:spinnerMode="dropdown"/>
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/labelImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/save_image_label"/>
+            <ImageView
+                android:id="@+id/takenPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:adjustViewBounds="true"
+                android:background="@color/light_grey"
+                android:maxHeight="@dimen/max_image_height"
+                android:minHeight="@dimen/min_image_height"
+                android:src="@drawable/camera_big"/>
 
-        <Button
-            android:id="@+id/train"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:enabled="false"
-            android:text="@string/train"/>
-    </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/selectedLabel"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/default_margin"
+                android:gravity="center_horizontal"
+                tools:text="Ship"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/labelList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/default_margin"
+                android:scrollbars="vertical"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/photoButton"
+        android:layout_width="@dimen/fab_size"
+        android:layout_height="@dimen/fab_size"
+        android:layout_gravity="end"
+        android:layout_marginEnd="@dimen/default_margin"
+        android:elevation="@dimen/z_fab_over_touchable_app_bar"
+        android:src="@drawable/camera"
+        android:visibility="gone"
+        />
+
+</FrameLayout>

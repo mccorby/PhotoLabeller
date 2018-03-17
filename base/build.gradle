@@ -1,20 +1,14 @@
 apply plugin: 'kotlin'
 
+kotlin {
+    experimental {
+        coroutines 'enable'
+    }
+}
 
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
-buildscript {
-    ext.kotlin_version = '1.2.30'
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-repositories {
-    mavenCentral()
-}
+
 compileKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
@@ -27,9 +21,15 @@ compileTestKotlin {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    def applicationDependencies = rootProject.ext.productionCode
+    def unitTestDependencies = rootProject.ext.unitTesting
 
-    testCompile 'org.jetbrains.kotlin:kotlin-stdlib:1.2.30'
-    testCompile 'org.jetbrains.kotlin:kotlin-test-junit:1.2.30'
-//    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
+    implementation applicationDependencies.kotlin
+    implementation applicationDependencies.kotlinCoroutines
+    implementation applicationDependencies.commonsIO
+
+    testImplementation unitTestDependencies.kotlin
+    testImplementation unitTestDependencies.kotlinTest
+    testImplementation unitTestDependencies.junit
+    testImplementation unitTestDependencies.mockito
 }

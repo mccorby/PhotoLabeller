@@ -1,29 +1,27 @@
 package com.mccorby.photolabeller.trainer
 
 import com.mccorby.photolabeller.config.SharedConfig
+import com.mccorby.photolabeller.filemanager.LocalDataSource
+import com.mccorby.photolabeller.model.IterationLogger
 import com.mccorby.photolabeller.model.Stats
-import org.datavec.image.loader.NativeImageLoader
+import com.mccorby.photolabeller.model.Trainer
+import org.deeplearning4j.nn.api.Model
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
+import org.deeplearning4j.nn.transferlearning.TransferLearning
+import org.deeplearning4j.optimize.api.IterationListener
 import org.deeplearning4j.util.ModelSerializer
-import org.nd4j.linalg.api.ndarray.INDArray
+import org.nd4j.linalg.factory.Nd4j
+import java.io.ByteArrayOutputStream
 import java.io.File
 
 /**
- * Note that for convolutional models, input shape information follows the NCHW convention.
- * So if a model’s input shape default is new int[]{3, 224, 224},
- * this means the model has 3 channels and height/width of 224.
+ * This is a singleton object. We don't want to create a trainer each time we need it
+ * The trainer holds a reference to the model that is the biggest object in the app and the
+ * most costly to build
+ * The trainer does a transfer learning process during training, taking the images in the directories
+ * and using them to update the model
  *
- * https://deeplearning4j.org/transfer-learning
  */
-
-// TODO Move interface out to domain models
-interface Trainer {
-    fun loadModel(location: File): Stats
-    fun train(): Stats
-    fun predict(input: File): Stats
-    fun isModelLoaded(): Boolean
-}
-
 
 class TrainerImpl: Trainer {
 
@@ -32,7 +30,26 @@ class TrainerImpl: Trainer {
     }
 
     lateinit var config: SharedConfig
+    lateinit var localDataSource: LocalDataSource
+    lateinit var imageProcessor: ImageProcessorImpl
+    var iterationLogger: IterationLogger? = null
+
+    private val iterationListener = object : IterationListener {
+        private var invoked = false
+        override fun iterationDone(model: Model?, iteration: Int) {
+                iterationLogger?.onIterationDone("Score at iteration $iteration: ${model!!.score()}")
+        }
+
+        override fun invoked() = invoked
+
+        override fun invoke() {
+            invoked = true
+        }
+    }
+
     private var model: MultiLayerNetwork? = null
+
+    private var samplesUsedInTraining: Int = 0
 
     override fun loadModel(location: File): Stats {
         // Load model
@@ -40,59 +57,71 @@ class TrainerImpl: Trainer {
 
         println(model.toString())
 
-        // Transfer learning using existing model and images in folders or just train directly
-
         return Stats("Model loaded")
     }
 
-    override fun train(): Stats {
-        if (model == null) {
-            return Stats("Model not ready")
-        }
-        // Transfer learning using existing model and images in folders or just train directly
+    override fun train(numSamples: Int, epochs: Int): Stats {
+        model ?: return Stats("Model not ready")
 
-        return Stats("Model loaded")
+        val imageLoader = ClientCifarLoader(localDataSource, imageProcessor, config.labels)
+
+        val dataSetIterator = ClientCifarDataSetIterator(
+                imageLoader,
+                config.batchSize,
+                1,
+                config.labels.size,
+                numSamples)
+
+        // Freeze all layers until the layer indexed in the config file
+        // This index must match the index in the model created in the server
+        val newModel = TransferLearning.Builder(model)
+                .setFeatureExtractor(config.featureLayerIndex)
+                .build()
+        // A second model is generated with TransferLearning. We cannot afford having two!
+        model = newModel
+
+        model!!.setListeners(iterationListener)
+
+        for (i in 0 until epochs) {
+            println("Epoch=====================$i")
+            model!!.fit(dataSetIterator)
+        }
+        samplesUsedInTraining = Math.min(imageLoader.totalExamples(), config.maxSamples)
+        // Empty listeners
+        model!!.listeners = listOf()
+
+        return Stats("Model trained")
     }
 
-    override fun predict(input: File): Stats {
-        if (model == null) {
-            return Stats("No active model")
-        }
+    override fun isModelLoaded() = model != null
 
-        val loader = NativeImageLoader(config.imageSize, config.imageSize, config.channels)
-        // Get the image into an INDarray
-        var image: INDArray? = null
-        try {
-            image = loader.asMatrix(input)
-        } catch (e: Throwable) {
-            e.printStackTrace()
-        }
+    override fun predict(file: File): Stats {
+        return model?.let {
+            val image = imageProcessor.processImage(file)
+            // We need to have a [batch_size, channels, width, height] array
+            val result = it.predict(image)
+            val output = it.output(image)
 
-        /* DataNormalization scaler = new ImagePreProcessingScaler(0,1);
-                        scaler.transform(image);*/
-        val output = model!!.output(image)
-
-//        log.info("## The Neural Nets Pediction ##")
-//        log.info("## list of probabilities per label ##")
-//        //log.info("## List of Labels in Order## ");
-//        // In new versions labels are always in order
-//        log.info(output.toString())
-//
-//        var modelResult = output.toString()
-//
-//        val predict = model.predict(image)
-//        modelResult += "===" + Arrays.toString(predict)
-//        jta.append("the file chosen:")
-//        jta.append("\n")
-//        jta.append(files[i].getAbsolutePath())
-//        jta.append("\n")
-//        jta.append("the  identification result :$modelResult")
-//        jta.append("\n")
-
-        return Stats(output.toString())
+            val message = result.joinToString(", ", prefix = "[", postfix = "]")
+            println(output)
+            Stats(message, result[0], output.data().asDouble().asList())
+        } ?: Stats("Model not ready")
     }
 
-    override fun isModelLoaded(): Boolean {
-        return model != null
+    override fun saveModel(file: File): File {
+        ModelSerializer.writeModel(model!!, file, true)
+        return file
+    }
+
+    override fun getSamplesInTraining() = samplesUsedInTraining
+
+    override fun getUpdateFromLayer(): ByteArray {
+        val weights = model!!.getLayer(config.featureLayerIndex).params()
+        val outputStream = ByteArrayOutputStream()
+        Nd4j.write(outputStream, weights)
+        outputStream.flush()
+        val bytes = outputStream.toByteArray()
+        outputStream.close()
+        return bytes
     }
 }

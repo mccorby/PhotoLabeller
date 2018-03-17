@@ -1,0 +1,60 @@
+ext {
+    // Android libraries
+    appCompat_version = '27.1.0'
+    constraintLayout_version = '1.0.2'
+
+    // Third-party libs
+    kotlin_coroutines_version = '0.22.5'
+    dagger_version = '2.11'
+    retrofit_version = '2.3.0'
+    okhttp_version = '3.10.0'
+    gson_version = '2.8.2'
+    picasso_version = "2.5.2"
+    kapsule_version = "0.3"
+    retrofit_coroutines_version = "1.0.0"
+    commons_io_version = "2.4"
+
+    // DL4J
+    dl4j_version = "0.8.0"
+    slf4j_version = "1.7.25"
+
+    // Unit Testing
+    junit_version = '4.12'
+    kotlin_mockito_version = '1.5.0'
+
+    // Acceptance Testing
+    runner_version = '1.0.1'
+    espresso_version = '3.0.1'
+
+    productionCode = [
+            kotlin                 : "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version",
+            kotlinCoroutines       : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version",
+            kotlinCoroutinesAndroid: "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version",
+            appCompat              : "com.android.support:appcompat-v7:$appCompat_version",
+            design                 : "com.android.support:design:$appCompat_version",
+            constraintLayout       : "com.android.support.constraint:constraint-layout:$constraintLayout_version",
+            retrofit               : "com.squareup.retrofit2:converter-gson:$retrofit_version",
+            retrofit_logging       : "com.squareup.okhttp3:logging-interceptor:$okhttp_version",
+            gson                   : "com.google.code.gson:gson:$gson_version",
+            picasso                : "com.squareup.picasso:picasso:${picasso_version}",
+            kapsule                : "space.traversal.kapsule:kapsule-core:${kapsule_version}",
+            retrofitCoroutines     : "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:${retrofit_coroutines_version}",
+            commonsIO              : "commons-io:commons-io:${commons_io_version}",
+            dl4j_core              : "org.deeplearning4j:deeplearning4j-core:${dl4j_version}",
+            dl4j_native            : "org.nd4j:nd4j-native:${dl4j_version}",
+            dl4j_native_android    : "org.nd4j:nd4j-native:${dl4j_version}:android-arm",
+            sl4j                   : "org.slf4j:slf4j-android:${slf4j_version}"
+    ]
+
+    unitTesting = [
+            kotlin    : "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version",
+            kotlinTest: "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version",
+            junit     : "junit:junit:$junit_version",
+            mockito   : "com.nhaarman:mockito-kotlin:$kotlin_mockito_version",
+    ]
+
+    acceptanceTesting = [
+            testRunner  : "com.android.support.test:runner:$runner_version",
+            espressoCore: "com.android.support.test.espresso:espresso-core:$espresso_version",
+    ]
+}

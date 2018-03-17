@@ -1,5 +1,10 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="default_margin">16dp</dimen>
-    <dimen name="image_height">200dp</dimen>
+
+    <dimen name="min_image_height">168dp</dimen> <!-- 3 * ?android:actionBarSize -->
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="fab_radius">28dp</dimen>
+    <dimen name="z_fab_over_touchable_app_bar">9dp</dimen>
+
 </resources>

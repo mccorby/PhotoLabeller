@@ -1,8 +1,19 @@
 <resources>
-    <string name="app_name">Photo Labeler</string>
-    <string name="title_activity_main">Photo Labeler</string>
-    <string name="save_image_label">Label Image</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Photo Labeller</string>
+    <string name="title_activity_main">Photo Labeller</string>
+    <string name="save_image_label">Save Label Image</string>
     <string name="train">Start Training</string>
-    <string name="title_activity_training">Training Model</string>
+    <string name="title_training">Training Model</string>
+    <string name="menu_photo">Photo</string>
+    <string name="menu_training">Training</string>
+    <string name="model_name">Training model %1$s</string>
+    <string name="using_images">Using %1$d images</string>
+    <string name="training_started">Training started</string>
+    <string name="with_categories">With %1$d categories</string>
+    <string name="with_epochs">With %1$d epochs</string>
+    <string name="with_model_layers">Model with %1$d layers</string>
+    <string name="training_data">Training data</string>
+    <string name="model_hyperparameters">Model Hyperparameters</string>
+    <string name="logging">Logging</string>
+    <string name="save">Save</string>
 </resources>
