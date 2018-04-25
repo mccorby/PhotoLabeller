@@ -25,7 +25,6 @@
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
             android:background="@color/light_grey"
-            android:maxHeight="@dimen/max_image_height"
             android:minHeight="@dimen/min_image_height"
             android:src="@drawable/camera_big"/>
 
