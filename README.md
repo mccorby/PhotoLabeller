@@ -25,17 +25,51 @@ And the data, your data, never leaves the device, let that be your phone, your l
 
 ![image alt text](art/high_level_arch.png)
 
+Very briefly the process of training a model goes as follows:
+* The server opens a new round of training
+* The clients that are going to participate in the training round download the latest version of the model from the server
+* Using their local data, each client updates the model
+* Those updates are sent to the server
+* The server gathers all updates and applies Federated Averaging to improve the shared model
+* The shared model is now ready for all clients to use
+
 ## Use Case. Classifying and training images
+
 To demonstrate how Federated Learning works, I have implemented a system based on Cifar-10, a well-known image classification dataset
 
 ### Android client
+
+| ![image alt text](art/App_Predicting.png) | ![image alt text](art/App_Training.png) |
+
 #### Client Architecture
-#### Separation of concerns
-Change the UI bit in Android and you can have with little effort another type of client that supports Kotlin
+
+The architecture allows to remove the UI bit in Android and apply the rest with little effort to another type of client that supports Kotlin
 
 ### Parameter Server
 #### Server Architecture
 #### Federated Averaging
+The averaging is done by the server once it has received a minimum number of updates. It applies Federated Averaging as defined in [1]()
+
+See [FederatedAveragingStrategy.kt](https://github.com/mccorby/PhotoLabellerServer/blob/master/server/src/main/kotlin/com/mccorby/photolabeller/server/core/FederatedAveragingStrategy.kt)
+
+```java
+    override fun processUpdates(): ByteArrayOutputStream {
+        val totalSamples = repository.getTotalSamples()
+        val model = ModelSerializer.restoreMultiLayerNetwork(repository.retrieveModel())
+        val shape = model.getLayer(layerIndex).params().shape()
+
+        val sumUpdates = repository.listClientUpdates().fold(
+                Nd4j.zeros(shape[0], shape[1]),
+                { sumUpdates, next -> processSingleUpdate(next, totalSamples, sumUpdates)
+        })
+
+        model.getLayer(layerIndex).setParams(sumUpdates)
+        val outputStream = ByteArrayOutputStream()
+        ModelSerializer.writeModel(model, outputStream, true)
+        repository.storeModel(outputStream.toByteArray())
+        return outputStream
+    }
+ ```
 
 ## References
 * [Federated Learning](https://research.googleblog.com/2017/04/federated-learning-collaborative.html)
