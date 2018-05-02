@@ -59,7 +59,6 @@ class TrainingFragment : Fragment(), Injects<TrainingModule>, TrainingView {
         loggerArea.append(stats.summary + "\n")
     }
 
-
     private fun injectMembers() {
         inject(AndroidClientApplication.appModule(context!!))
         presenter.attach(this)

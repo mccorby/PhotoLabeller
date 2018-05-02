@@ -113,7 +113,7 @@ class MainFragment : Fragment(), LabellingView, Injects<LabellingModule>, OnLabe
 
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         R.id.action_save -> {
-            presenter.saveLabelledImage(currentPhotoPath, view!!.selectedLabel.text.toString())
+            presenter.saveLabelledImage(currentPhotoPath, view!!.selectedLabel.text.toString().toLowerCase())
             true
         }
         else -> false

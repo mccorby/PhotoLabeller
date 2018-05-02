@@ -60,8 +60,8 @@ See [FederatedAveragingStrategy.kt](https://github.com/mccorby/PhotoLabellerServ
 
         val sumUpdates = repository.listClientUpdates().fold(
                 Nd4j.zeros(shape[0], shape[1]),
-                { sumUpdates, next -> processSingleUpdate(next, totalSamples, sumUpdates)
-        })
+                { sumUpdates, next -> processSingleUpdate(next, totalSamples, sumUpdates) }
+        )
 
         model.getLayer(layerIndex).setParams(sumUpdates)
         val outputStream = ByteArrayOutputStream()

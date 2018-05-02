@@ -21,8 +21,7 @@ class LabelAdapter(private val labels: Array<String>, private val onLabelSelecte
 
     private var labelScores: List<Double>? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup,
-                                    viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context)
                 .inflate(label_item, parent, false))
     }
