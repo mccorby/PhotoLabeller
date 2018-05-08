@@ -77,6 +77,7 @@ dependencies {
     implementation applicationDependencies.appCompat
     implementation applicationDependencies.constraintLayout
     implementation applicationDependencies.design
+    implementation applicationDependencies.lifecyleExtensions
 
     implementation applicationDependencies.retrofit
     implementation applicationDependencies.retrofit_logging
@@ -97,4 +98,5 @@ dependencies {
 
     androidTestImplementation acceptanceTestDependencies.testRunner
     androidTestImplementation acceptanceTestDependencies.espressoCore
+    androidTestImplementation acceptanceTestDependencies.androidArchitecture
 }

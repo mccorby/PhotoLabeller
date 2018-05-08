@@ -21,9 +21,6 @@ internal class LabellingPresenterTest {
     private lateinit var repository: FederatedRepository
 
     @Mock
-    private lateinit var getModelUseCase: GetModel
-
-    @Mock
     private lateinit var predictUseCase: Predict
 
     @Mock
@@ -33,7 +30,7 @@ internal class LabellingPresenterTest {
     fun setUp() {
         MockitoAnnotations.initMocks(this)
 
-        cut = LabellingPresenter(repository, getModelUseCase, predictUseCase, labelUseCase)
+        cut = LabellingPresenter(repository, predictUseCase, labelUseCase)
         cut.attach(view)
     }
 

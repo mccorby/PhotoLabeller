@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.mccorby.photolabeller.AndroidClientApplication
 import com.mccorby.photolabeller.R
+import com.mccorby.photolabeller.R.id.*
 import com.mccorby.photolabeller.config.SharedConfig
 import com.mccorby.photolabeller.di.TrainingModule
 import com.mccorby.photolabeller.model.IterationLogger

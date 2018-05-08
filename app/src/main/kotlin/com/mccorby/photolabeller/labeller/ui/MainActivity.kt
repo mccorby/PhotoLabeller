@@ -1,4 +1,4 @@
-package com.mccorby.photolabeller.labeller
+package com.mccorby.photolabeller.labeller.ui
 
 import android.content.Intent
 import android.os.Bundle

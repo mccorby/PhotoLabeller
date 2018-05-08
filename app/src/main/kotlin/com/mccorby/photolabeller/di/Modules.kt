@@ -7,6 +7,8 @@ import com.mccorby.photolabeller.executors.BackgroundExecutionContext
 import com.mccorby.photolabeller.executors.UIExecutionContext
 import com.mccorby.photolabeller.filemanager.FileManager
 import com.mccorby.photolabeller.labeller.LabellingPresenter
+import com.mccorby.photolabeller.labeller.ModelStatsViewFactory
+import com.mccorby.photolabeller.labeller.ModelStatsViewModel
 import com.mccorby.photolabeller.model.Trainer
 import com.mccorby.photolabeller.repository.FederatedRepository
 import com.mccorby.photolabeller.trainer.ImageProcessorImpl
@@ -39,6 +41,8 @@ interface AndroidModule {
 
 interface LabellingModule {
     val labellingPresenter: LabellingPresenter
+    val modelStats: ModelStatsViewModel
+    val modelStatsFactory: ModelStatsViewFactory
 }
 
 interface TrainingModule {

@@ -1,11 +1,13 @@
 package com.mccorby.photolabeller.labeller
 
-import com.mccorby.photolabeller.interactor.*
+import com.mccorby.photolabeller.interactor.LabelImage
+import com.mccorby.photolabeller.interactor.LabelImageParams
+import com.mccorby.photolabeller.interactor.Predict
+import com.mccorby.photolabeller.interactor.PredictParams
 import com.mccorby.photolabeller.repository.FederatedRepository
 import java.io.File
 
 class LabellingPresenter(private val repository: FederatedRepository,
-                         private val getModel: GetModel,
                          private val predict: Predict,
                          private val labelImage: LabelImage) {
 
@@ -13,8 +15,6 @@ class LabellingPresenter(private val repository: FederatedRepository,
 
 
     fun saveLabelledImage(photoPath: String, label: String) = labelImage.execute({}, LabelImageParams(photoPath, label))
-
-    fun loadModel() = getModel.execute({view?.onModelLoaded(it)}, NoParams())
 
     fun createImageFile(): File = repository.createImage()
 

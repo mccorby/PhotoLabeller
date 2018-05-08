@@ -1,6 +1,8 @@
-package com.mccorby.photolabeller.labeller
+package com.mccorby.photolabeller.labeller.ui
 
 import android.app.Activity
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,6 +16,8 @@ import android.widget.Toast
 import com.mccorby.photolabeller.AndroidClientApplication
 import com.mccorby.photolabeller.R
 import com.mccorby.photolabeller.di.LabellingModule
+import com.mccorby.photolabeller.labeller.LabellingView
+import com.mccorby.photolabeller.labeller.ModelStatsViewModel
 import com.mccorby.photolabeller.model.Stats
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_main.*
@@ -38,6 +42,11 @@ class MainFragment : Fragment(), LabellingView, Injects<LabellingModule>, OnLabe
     private var currentPhotoPath = ""
     private val labelAdapter by lazy { LabelAdapter(labels, this) }
     private val presenter by required { labellingPresenter }
+
+    private val modelStatsViewFactory by required { modelStatsFactory }
+    private val modelStatsViewModel by lazy {
+        ViewModelProviders.of(this, modelStatsViewFactory).get(ModelStatsViewModel::class.java)
+    }
 
     private var onLabellingActionListener: OnLabellingActionsListener? = null
 
@@ -83,7 +92,9 @@ class MainFragment : Fragment(), LabellingView, Injects<LabellingModule>, OnLabe
     }
 
     private fun loadModel() {
-        presenter.loadModel()
+        val modelStatsObserver = Observer<Stats> { t -> onModelLoaded(t!!) }
+        modelStatsViewModel.getModelStatusData().observe(this, modelStatsObserver)
+        modelStatsViewModel.loadModel()
     }
 
     override fun onModelLoaded(stats: Stats) {

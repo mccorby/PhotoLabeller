@@ -1,4 +1,4 @@
-package com.mccorby.photolabeller.labeller
+package com.mccorby.photolabeller.labeller.ui
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater

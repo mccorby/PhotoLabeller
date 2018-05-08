@@ -2,6 +2,7 @@ ext {
     // Android libraries
     appCompat_version = '27.1.0'
     constraintLayout_version = '1.0.2'
+    lifecycle_extensions_version = '1.1.1'
 
     // Third-party libs
     kotlin_coroutines_version = '0.22.5'
@@ -33,6 +34,7 @@ ext {
             appCompat              : "com.android.support:appcompat-v7:$appCompat_version",
             design                 : "com.android.support:design:$appCompat_version",
             constraintLayout       : "com.android.support.constraint:constraint-layout:$constraintLayout_version",
+            lifecyleExtensions     : "android.arch.lifecycle:extensions:$lifecycle_extensions_version",
             retrofit               : "com.squareup.retrofit2:converter-gson:$retrofit_version",
             retrofit_logging       : "com.squareup.okhttp3:logging-interceptor:$okhttp_version",
             gson                   : "com.google.code.gson:gson:$gson_version",
@@ -54,7 +56,8 @@ ext {
     ]
 
     acceptanceTesting = [
-            testRunner  : "com.android.support.test:runner:$runner_version",
-            espressoCore: "com.android.support.test.espresso:espresso-core:$espresso_version",
+            testRunner         : "com.android.support.test:runner:$runner_version",
+            espressoCore       : "com.android.support.test.espresso:espresso-core:$espresso_version",
+            androidArchitecture: "android.arch.core:core-testing:$lifecycle_extensions_version"
     ]
 }

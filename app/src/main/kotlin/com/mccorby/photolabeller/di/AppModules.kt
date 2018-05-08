@@ -18,6 +18,8 @@ import com.mccorby.photolabeller.interactor.LabelImage
 import com.mccorby.photolabeller.interactor.Predict
 import com.mccorby.photolabeller.interactor.Train
 import com.mccorby.photolabeller.labeller.LabellingPresenter
+import com.mccorby.photolabeller.labeller.ModelStatsViewFactory
+import com.mccorby.photolabeller.labeller.ModelStatsViewModel
 import com.mccorby.photolabeller.trainer.ImageProcessorImpl
 import com.mccorby.photolabeller.trainer.TrainerImpl
 import com.mccorby.photolabeller.trainer.TrainingPresenter
@@ -63,9 +65,13 @@ class MainLabellingModule : LabellingModule, Injects<AndroidModule> {
     override val labellingPresenter
         get() = LabellingPresenter(
                 repository,
-                getModelUseCase,
                 predictUseCase,
                 labelImageUseCase)
+    override val modelStats
+        get() = ModelStatsViewModel(getModelUseCase)
+
+    override val modelStatsFactory
+        get() = ModelStatsViewFactory(getModelUseCase)
 }
 
 class MainTrainingModule : TrainingModule, Injects<AndroidModule> {

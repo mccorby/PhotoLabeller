@@ -18,4 +18,4 @@ abstract class UseCase<out Type, in Params>(private val executionContext: Execut
 }
 
 // NOTE Adding NoParams class to allow using Params as data classes
-class NoParams
+object NoParams

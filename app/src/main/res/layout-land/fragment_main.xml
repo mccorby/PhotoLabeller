@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.mccorby.photolabeller.labeller.MainActivity">
+    tools:context="com.mccorby.photolabeller.labeller.ui.MainActivity">
 
     <View
         android:id="@+id/background"
