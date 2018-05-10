@@ -86,8 +86,9 @@ dependencies {
     implementation applicationDependencies.retrofitCoroutines
 
     implementation project(path: ':base')
+    implementation project(path: ':domain')
+    implementation project(path: ':repository')
     implementation project(path: ':trainer')
-    implementation project(path: ':modelupdater')
     implementation project(path: ':datasource')
 
     testImplementation unitTestDependencies.kotlin

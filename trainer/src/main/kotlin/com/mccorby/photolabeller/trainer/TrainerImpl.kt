@@ -1,10 +1,10 @@
 package com.mccorby.photolabeller.trainer
 
 import com.mccorby.photolabeller.config.SharedConfig
-import com.mccorby.photolabeller.filemanager.LocalDataSource
 import com.mccorby.photolabeller.model.IterationLogger
 import com.mccorby.photolabeller.model.Stats
 import com.mccorby.photolabeller.model.Trainer
+import com.mccorby.photolabeller.repository.LocalDataSource
 import org.deeplearning4j.nn.api.Model
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.nn.transferlearning.TransferLearning

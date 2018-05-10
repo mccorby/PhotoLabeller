@@ -8,7 +8,7 @@ import com.mccorby.photolabeller.repository.FederatedRepository
 class Train(private val repository: FederatedRepository,
             private val trainer: Trainer,
             executionContext: ExecutionContext,
-            postExecutionContext: ExecutionContext): UseCase<Stats,TrainParams>(executionContext, postExecutionContext) {
+            postExecutionContext: ExecutionContext): UseCase<Stats, TrainParams>(executionContext, postExecutionContext) {
 
     override suspend fun run(params: TrainParams): Stats {
         println("Train started")

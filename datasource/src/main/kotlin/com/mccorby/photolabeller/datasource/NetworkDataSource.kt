@@ -2,8 +2,9 @@ package com.mccorby.photolabeller.datasource
 
 import com.mccorby.fp.Either
 import com.mccorby.photolabeller.datasource.network.FederatedService
-import com.mccorby.photolabeller.filemanager.LocalDataSource
 import com.mccorby.photolabeller.model.TrainingRound
+import com.mccorby.photolabeller.repository.FederatedDataSource
+import com.mccorby.photolabeller.repository.LocalDataSource
 import kotlinx.coroutines.experimental.runBlocking
 import java.io.File
 

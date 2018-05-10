@@ -1,4 +1,4 @@
-package com.mccorby.photolabeller.filemanager
+package com.mccorby.photolabeller.datasource.filemanager
 
 internal class FileManagerImplTest {
 

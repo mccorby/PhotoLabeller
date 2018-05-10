@@ -1,13 +1,13 @@
 package com.mccorby.photolabeller.di
 
 import com.mccorby.photolabeller.config.SharedConfig
-import com.mccorby.photolabeller.datasource.FederatedDataSource
 import com.mccorby.photolabeller.datasource.network.FederatedService
 import com.mccorby.photolabeller.executors.BackgroundExecutionContext
 import com.mccorby.photolabeller.executors.UIExecutionContext
-import com.mccorby.photolabeller.filemanager.FileManager
+import com.mccorby.photolabeller.datasource.filemanager.FileManager
 import com.mccorby.photolabeller.labeller.LabellingPresenter
 import com.mccorby.photolabeller.model.Trainer
+import com.mccorby.photolabeller.repository.FederatedDataSource
 import com.mccorby.photolabeller.repository.FederatedRepository
 import com.mccorby.photolabeller.trainer.ImageProcessorImpl
 import com.mccorby.photolabeller.trainer.TrainingPresenter

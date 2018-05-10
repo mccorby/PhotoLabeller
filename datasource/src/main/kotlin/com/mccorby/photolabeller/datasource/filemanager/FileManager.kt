@@ -1,7 +1,8 @@
-package com.mccorby.photolabeller.filemanager
+package com.mccorby.photolabeller.datasource.filemanager
 
 import com.mccorby.fp.Either
 import com.mccorby.photolabeller.config.SharedConfig
+import com.mccorby.photolabeller.repository.LocalDataSource
 import org.apache.commons.io.FileUtils
 import org.apache.commons.io.IOCase
 import org.apache.commons.io.filefilter.DirectoryFileFilter
@@ -12,14 +13,6 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
-
-interface LocalDataSource {
-    fun createTempFile(type: String): File
-    fun saveLabelImage(currentPhotoPath: String, selectedLabel: String): File
-    fun loadModelFile(): Either<Exception, File>
-    fun loadTrainingFiles(): Map<String, List<File>>
-    fun serializeModel(initialStream: InputStream?): File
-}
 
 class FileManager(private val storageDir: File, private val config: SharedConfig) : LocalDataSource {
 

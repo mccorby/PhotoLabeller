@@ -1,6 +1,7 @@
 package com.mccorby.photolabeller.datasource
 
 import android.content.res.AssetManager
+import com.mccorby.photolabeller.repository.EmbeddedDataSource
 import java.io.File
 import java.io.FileOutputStream
 

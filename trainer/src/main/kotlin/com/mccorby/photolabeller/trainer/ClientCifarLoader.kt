@@ -1,6 +1,6 @@
 package com.mccorby.photolabeller.trainer
 
-import com.mccorby.photolabeller.filemanager.LocalDataSource
+import com.mccorby.photolabeller.repository.LocalDataSource
 import org.datavec.image.loader.CifarLoader
 import org.nd4j.linalg.dataset.DataSet
 import org.nd4j.linalg.util.FeatureUtil

@@ -26,6 +26,10 @@ dependencies {
 
     implementation applicationDependencies.kotlin
     implementation applicationDependencies.kotlinCoroutines
+    implementation applicationDependencies.commonsIO
+
+    implementation project(path: ':base')
+    implementation project(path: ':domain')
 
     testImplementation unitTestDependencies.kotlin
     testImplementation unitTestDependencies.kotlinTest

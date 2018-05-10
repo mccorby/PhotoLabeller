@@ -27,8 +27,11 @@ dependencies {
     implementation applicationDependencies.kotlin
     implementation applicationDependencies.kotlinCoroutines
     implementation applicationDependencies.retrofit
+    implementation applicationDependencies.commonsIO
 
     implementation project(path: ':base')
+    implementation project(path: ':domain')
+    implementation project(path: ':repository')
 
     testImplementation unitTestDependencies.kotlin
     testImplementation unitTestDependencies.kotlinTest

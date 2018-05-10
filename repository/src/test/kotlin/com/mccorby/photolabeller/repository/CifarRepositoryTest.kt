@@ -1,7 +1,6 @@
-package com.mccorby.photolabeller.datasource
+package com.mccorby.photolabeller.repository
 
 import com.mccorby.fp.Either
-import com.mccorby.photolabeller.filemanager.LocalDataSource
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.verifyZeroInteractions

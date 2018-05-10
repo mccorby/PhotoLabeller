@@ -1,1 +1,1 @@
-include ':app', ':trainer', ':modelupdater', ':base', ':datasource'
+include ':app', ':trainer', ':base', ':datasource', ':domain', ':repository'

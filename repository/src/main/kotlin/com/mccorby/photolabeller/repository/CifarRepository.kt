@@ -1,21 +1,7 @@
-package com.mccorby.photolabeller.datasource
+package com.mccorby.photolabeller.repository
 
 import com.mccorby.fp.Either
-import com.mccorby.photolabeller.filemanager.LocalDataSource
-import com.mccorby.photolabeller.model.TrainingRound
-import com.mccorby.photolabeller.repository.FederatedRepository
 import java.io.File
-
-interface FederatedDataSource {
-    fun updateModel(): Either<Exception, File>
-    fun getCurrentRound(): TrainingRound
-    fun uploadModel(file: File, samples: Int): Boolean
-    fun uploadModelUpdate(modelUpdate: ByteArray, samples: Int): Boolean
-}
-
-interface EmbeddedDataSource {
-    fun getModel(): File
-}
 
 class CifarRepository(private val localDataSource: LocalDataSource,
                       private val dataSource: FederatedDataSource,

@@ -1,6 +1,6 @@
 package com.mccorby.photolabeller.trainer
 
-import com.mccorby.photolabeller.filemanager.LocalDataSource
+import com.mccorby.photolabeller.repository.LocalDataSource
 import com.nhaarman.mockito_kotlin.whenever
 import org.junit.Before
 import org.junit.Test
