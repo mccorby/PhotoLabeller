@@ -1,3 +1,5 @@
+**Check [this blog entry](https://proandroiddev.com/federated-learning-e79e054c33ef) for more information**
+
 # Federated Learning
 This project is an implementation of a [Federated Learning](https://research.googleblog.com/2017/04/federated-learning-collaborative.html) system consisting on a [Parameter Server](https://github.com/mccorby/PhotoLabellerServer) and an [Android application](https://github.com/mccorby/PhotoLabeller) that can be used as a client
 
