@@ -9,7 +9,9 @@ import org.deeplearning4j.nn.api.Model
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork
 import org.deeplearning4j.nn.transferlearning.TransferLearning
 import org.deeplearning4j.optimize.api.IterationListener
+import org.deeplearning4j.optimize.api.TrainingListener
 import org.deeplearning4j.util.ModelSerializer
+import org.nd4j.linalg.api.ndarray.INDArray
 import org.nd4j.linalg.factory.Nd4j
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -34,16 +36,27 @@ class TrainerImpl: Trainer {
     lateinit var imageProcessor: ImageProcessorImpl
     var iterationLogger: IterationLogger? = null
 
-    private val iterationListener = object : IterationListener {
-        private var invoked = false
-        override fun iterationDone(model: Model?, iteration: Int) {
-                iterationLogger?.onIterationDone("Score at iteration $iteration: ${model!!.score()}")
+    private val iterationListener = object : TrainingListener {
+        override fun iterationDone(model: Model?, iteration: Int, epoch: Int) {
+            iterationLogger?.onIterationDone("Score at iteration $iteration: ${model!!.score()}")
         }
 
-        override fun invoked() = invoked
+        override fun onGradientCalculation(model: Model?) {
+        }
 
-        override fun invoke() {
-            invoked = true
+        override fun onBackwardPass(model: Model?) {
+        }
+
+        override fun onForwardPass(model: Model?, activations: MutableList<INDArray>?) {
+        }
+
+        override fun onForwardPass(model: Model?, activations: MutableMap<String, INDArray>?) {
+        }
+
+        override fun onEpochEnd(model: Model?) {
+        }
+
+        override fun onEpochStart(model: Model?) {
         }
     }
 
@@ -84,6 +97,7 @@ class TrainerImpl: Trainer {
 
         for (i in 0 until epochs) {
             println("Epoch=====================$i")
+            dataSetIterator.reset()
             model!!.fit(dataSetIterator)
         }
         samplesUsedInTraining = Math.min(imageLoader.totalExamples(), config.maxSamples)

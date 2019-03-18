@@ -2,7 +2,7 @@ package com.mccorby.photolabeller.di
 
 import android.content.Context
 import android.os.Environment
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.mccorby.photolabeller.BuildConfig
 import com.mccorby.photolabeller.config.SharedConfig
 import com.mccorby.photolabeller.datasource.AssetDataSource

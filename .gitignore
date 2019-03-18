@@ -12,6 +12,7 @@ app/gradle.properties
 opencv
 gradlew
 gradlew.bat
+**/.idea/*
 
 *.so
 *.a
