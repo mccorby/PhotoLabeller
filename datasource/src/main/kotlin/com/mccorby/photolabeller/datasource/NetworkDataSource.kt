@@ -5,7 +5,7 @@ import com.mccorby.photolabeller.datasource.network.FederatedService
 import com.mccorby.photolabeller.model.TrainingRound
 import com.mccorby.photolabeller.repository.FederatedDataSource
 import com.mccorby.photolabeller.repository.LocalDataSource
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.runBlocking
 import java.io.File
 
 class NetworkDataSource(private val service: FederatedService, private val localDataSource: LocalDataSource) : FederatedDataSource {

@@ -50,7 +50,7 @@ class MainFragment : Fragment(), LabellingView, Injects<LabellingModule>, OnLabe
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         when (context is OnLabellingActionsListener) {
-            true -> onLabellingActionListener = context as OnLabellingActionsListener
+            true -> onLabellingActionListener = context
             false -> println("It would be good if the activity implemented OnLabellingActionsListener but not mandatory")
         }
         injectMembers()

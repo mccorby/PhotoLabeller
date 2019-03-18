@@ -20,6 +20,6 @@ class ImageProcessorImpl(private val config: SharedConfig): ImageProcessor {
 
         val nil = NativeImageLoader()
         val image = nil.asMatrix(resizedImage)
-        return image.reshape(1, config.channels, config.imageSize, config.imageSize)
+        return image.reshape(intArrayOf(1, config.channels, config.imageSize, config.imageSize))
     }
 }

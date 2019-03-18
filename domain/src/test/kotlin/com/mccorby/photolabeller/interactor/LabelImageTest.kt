@@ -5,8 +5,8 @@ import com.mccorby.photolabeller.repository.FederatedRepository
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import kotlinx.coroutines.experimental.CommonPool
-import kotlinx.coroutines.experimental.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 
 internal class LabelImageTest {
@@ -21,8 +21,8 @@ internal class LabelImageTest {
         val executionContext = mock<ExecutionContext>()
         val postExecutionContext = mock<ExecutionContext>()
 
-        whenever(executionContext.getContext()).thenReturn(CommonPool)
-        whenever(postExecutionContext.getContext()).thenReturn(CommonPool)
+        whenever(executionContext.getContext()).thenReturn(Dispatchers.Default)
+        whenever(postExecutionContext.getContext()).thenReturn(Dispatchers.Default)
         
         // When
         val cut = LabelImage(repository, executionContext, postExecutionContext)

@@ -1,8 +1,9 @@
 package com.mccorby.photolabeller.interactor
 
 import com.mccorby.executors.ExecutionContext
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 abstract class UseCase<out Type, in Params>(private val executionContext: ExecutionContext,
                                             private val postExecutionContext: ExecutionContext) {
@@ -10,8 +11,8 @@ abstract class UseCase<out Type, in Params>(private val executionContext: Execut
     abstract suspend fun run(params: Params): Type
 
     fun execute(onExecute: (Type) -> Unit, params: Params) {
-        val job = async(executionContext.getContext()) { run(params) }
-        launch(postExecutionContext.getContext()) {
+        val job = GlobalScope.async(executionContext.getContext()) { run(params) }
+        GlobalScope.launch(postExecutionContext.getContext()) {
             onExecute.invoke(job.await())
         }
     }

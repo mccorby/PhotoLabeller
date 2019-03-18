@@ -13,8 +13,9 @@ import com.mccorby.photolabeller.di.TrainingModule
 import com.mccorby.photolabeller.model.IterationLogger
 import com.mccorby.photolabeller.model.Stats
 import kotlinx.android.synthetic.main.fragment_training.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import space.traversal.kapsule.Injects
 import space.traversal.kapsule.inject
 import space.traversal.kapsule.required
@@ -65,7 +66,7 @@ class TrainingFragment : Fragment(), Injects<TrainingModule>, TrainingView {
         val trainer = TrainerImpl.instance
         trainer.iterationLogger = object : IterationLogger {
             override fun onIterationDone(message: String) {
-                launch(UI) {
+                GlobalScope.launch(Dispatchers.Main) {
                     loggerArea.append(message + "\n")
                 }
             }

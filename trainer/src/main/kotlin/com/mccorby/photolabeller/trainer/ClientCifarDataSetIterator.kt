@@ -28,8 +28,4 @@ class ClientCifarDataSetIterator(private val imageLoader: ClientCifarLoader,
     }
 
     override fun asyncSupported(): Boolean = false
-
-    override fun totalExamples(): Int {
-        return imageLoader.totalExamples()
-    }
 }

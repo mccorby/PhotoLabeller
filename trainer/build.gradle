@@ -1,11 +1,5 @@
 apply plugin: 'kotlin'
 
-kotlin {
-    experimental {
-        coroutines 'enable'
-    }
-}
-
 sourceCompatibility = "1.8"
 targetCompatibility = "1.8"
 
@@ -21,6 +15,7 @@ compileTestKotlin {
 }
 
 dependencies {
+//    def dl4jVersion = rootProject.ext.dl4j_version
     def applicationDependencies = rootProject.ext.productionCode
     def unitTestDependencies = rootProject.ext.unitTesting
 
@@ -28,26 +23,46 @@ dependencies {
     implementation applicationDependencies.kotlinCoroutines
 
     // DL4J
-    implementation (applicationDependencies.dl4j_core) {
-        exclude group: 'junit'
-        exclude group: 'com.github.stephenc.findbugs'
+    implementation (group: 'org.deeplearning4j', name: 'deeplearning4j-core', version: "$dl4j_version") {
+        exclude group: 'org.bytedeco.javacpp-presets', module: 'opencv-platform'
+        exclude group: 'org.bytedeco.javacpp-presets', module: 'leptonica-platform'
+        exclude group: 'org.bytedeco.javacpp-presets', module: 'hdf5-platform'
+        exclude group: 'org.nd4j', module: 'nd4j-base64'
+    }
+    implementation group: 'org.nd4j', name: 'nd4j-native', version: "$dl4j_version"
+    implementation group: 'org.nd4j', name: 'nd4j-native', version: "$dl4j_version", classifier: "android-arm"
+    implementation group: 'org.nd4j', name: 'nd4j-native', version: "$dl4j_version", classifier: "android-arm64"
+    implementation group: 'org.nd4j', name: 'nd4j-native', version: "$dl4j_version", classifier: "android-x86"
+    implementation group: 'org.nd4j', name: 'nd4j-native', version: "$dl4j_version", classifier: "android-x86_64"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'openblas', version: '0.3.3-1.4.3'
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'openblas', version: '0.3.3-1.4.3', classifier: "android-arm"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'openblas', version: '0.3.3-1.4.3', classifier: "android-arm64"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'openblas', version: '0.3.3-1.4.3', classifier: "android-x86"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'openblas', version: '0.3.3-1.4.3', classifier: "android-x86_64"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '3.4.3-1.4.3'
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '3.4.3-1.4.3', classifier: "android-arm"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '3.4.3-1.4.3', classifier: "android-arm64"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '3.4.3-1.4.3', classifier: "android-x86"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'opencv', version: '3.4.3-1.4.3', classifier: "android-x86_64"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'leptonica', version: '1.76.0-1.4.3'
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'leptonica', version: '1.76.0-1.4.3', classifier: "android-arm"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'leptonica', version: '1.76.0-1.4.3', classifier: "android-arm64"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'leptonica', version: '1.76.0-1.4.3', classifier: "android-x86"
+    implementation group: 'org.bytedeco.javacpp-presets', name: 'leptonica', version: '1.76.0-1.4.3', classifier: "android-x86_64"
+
+    implementation 'com.google.code.gson:gson:2.8.2'
+    annotationProcessor 'org.projectlombok:lombok:1.16.16'
+
+    implementation 'com.google.code.findbugs:annotations:3.0.1', {
+        exclude module: 'jsr305'
+        exclude module: 'jcip-annotations'
     }
 
-    implementation(applicationDependencies.dl4j_native) {
-        exclude group: 'junit'
-        exclude group: 'com.github.stephenc.findbugs'
-    }
+    //This corrects for a junit version conflict.
+    configurations.all {
+        resolutionStrategy.force 'junit:junit:4.12'
 
-    implementation(applicationDependencies.dl4j_native_android) {
-        exclude group: 'junit'
-        exclude group: 'com.github.stephenc.findbugs'
     }
-
-    implementation(applicationDependencies.sl4j) {
-        exclude group: 'junit'
-        exclude group: 'com.github.stephenc.findbugs'
-    }
-
     implementation project(path: ':base')
     implementation project(path: ':domain')
     implementation project(path: ':repository')

@@ -19,12 +19,17 @@ class ClientCifarLoader(private val localDataSource: LocalDataSource,
     }
 
     fun createDataSet(batchSize: Int, fromIndex: Int = 0): DataSet {
+        if (trainingFiles.size == 0) return DataSet.empty()
+
         val dataSets = mutableListOf<DataSet>()
         val maxIndex = minOf(fromIndex + batchSize, trainingFiles.size)
+
+        if (fromIndex > maxIndex) return DataSet.empty()
+
         println("Creating dataset for indexes $fromIndex to $maxIndex")
         for (i in fromIndex until maxIndex) {
             println("Processing ${trainingFiles[i].file}")
-            val label = FeatureUtil.toOutcomeVector(labelToIndex(trainingFiles[i].label), CifarLoader.NUM_LABELS)
+            val label = FeatureUtil.toOutcomeVector(labelToIndex(trainingFiles[i].label), CifarLoader.NUM_LABELS.toLong())
             dataSets.add(DataSet(imageProcessor.processImage(trainingFiles[i].file), label))
         }
         return DataSet.merge(dataSets)
@@ -37,8 +42,8 @@ class ClientCifarLoader(private val localDataSource: LocalDataSource,
         println(trainingFiles)
     }
 
-    private fun labelToIndex(label: String): Int {
-        return labels.indexOf(label)
+    private fun labelToIndex(label: String): Long {
+        return labels.indexOf(label).toLong()
     }
 
     fun totalExamples(): Int = trainingFiles.size

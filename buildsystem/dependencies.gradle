@@ -4,19 +4,18 @@ ext {
     constraintLayout_version = '1.0.2'
 
     // Third-party libs
-    kotlin_coroutines_version = '0.22.5'
+    kotlin_coroutines_version = '1.1.1'
     dagger_version = '2.11'
     retrofit_version = '2.3.0'
     okhttp_version = '3.10.0'
     gson_version = '2.8.2'
     picasso_version = "2.5.2"
     kapsule_version = "0.3"
-    retrofit_coroutines_version = "1.0.0"
+    retrofit_coroutines_version = "0.9.2"
     commons_io_version = "2.4"
 
     // DL4J
-    dl4j_version = "0.8.0"
-    slf4j_version = "1.7.25"
+    dl4j_version = "1.0.0-beta3"
 
     // Unit Testing
     junit_version = '4.12'
@@ -38,12 +37,8 @@ ext {
             gson                   : "com.google.code.gson:gson:$gson_version",
             picasso                : "com.squareup.picasso:picasso:${picasso_version}",
             kapsule                : "space.traversal.kapsule:kapsule-core:${kapsule_version}",
-            retrofitCoroutines     : "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-experimental-adapter:${retrofit_coroutines_version}",
-            commonsIO              : "commons-io:commons-io:${commons_io_version}",
-            dl4j_core              : "org.deeplearning4j:deeplearning4j-core:${dl4j_version}",
-            dl4j_native            : "org.nd4j:nd4j-native:${dl4j_version}",
-            dl4j_native_android    : "org.nd4j:nd4j-native:${dl4j_version}:android-arm",
-            sl4j                   : "org.slf4j:slf4j-android:${slf4j_version}"
+            retrofitCoroutines     : "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${retrofit_coroutines_version}",
+            commonsIO              : "commons-io:commons-io:${commons_io_version}"
     ]
 
     unitTesting = [
